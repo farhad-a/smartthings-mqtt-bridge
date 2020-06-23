@@ -1,10 +1,10 @@
 # SmartThings MQTT Bridge
 ***System to share and control SmartThings device states in MQTT.***
 
-[![GitHub Tag](https://img.shields.io/github/tag/stjohnjohnson/smartthings-mqtt-bridge.svg)](https://github.com/stjohnjohnson/smartthings-mqtt-bridge/releases)
-[![Docker Pulls](https://img.shields.io/docker/pulls/stjohnjohnson/smartthings-mqtt-bridge.svg)](https://hub.docker.com/r/stjohnjohnson/smartthings-mqtt-bridge/)
-[![Docker Stars](https://img.shields.io/docker/stars/stjohnjohnson/smartthings-mqtt-bridge.svg)](https://hub.docker.com/r/stjohnjohnson/smartthings-mqtt-bridge/)
-[![Wercker Status](https://app.wercker.com/status/f2df197ea40f89b7eda771e67b4a4e1e/s/master "wercker status")](https://app.wercker.com/project/bykey/f2df197ea40f89b7eda771e67b4a4e1e)
+[![GitHub Tag](https://img.shields.io/github/tag/farhad-a/smartthings-mqtt-bridge.svg)](https://github.com/farhad-a/smartthings-mqtt-bridge/releases)
+[![Docker Pulls](https://img.shields.io/docker/pulls/farhad0a/smartthings-mqtt-bridge.svg)](https://hub.docker.com/r/farhad0a/smartthings-mqtt-bridge/)
+[![Docker Stars](https://img.shields.io/docker/stars/farhad0a/smartthings-mqtt-bridge.svg)](https://hub.docker.com/r/farhad0a/smartthings-mqtt-bridge/)
+![CI](https://github.com/farhad-a/smartthings-mqtt-bridge/workflows/CI/badge.svg)
 [![Gitter](https://badges.gitter.im/stjohnjohnson/smartthings-mqtt-bridge.svg)](https://gitter.im/stjohnjohnson/smartthings-mqtt-bridge?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Donate](https://img.shields.io/badge/donate-bitcoin-yellow.svg)](#donate)
 
@@ -39,9 +39,9 @@ $ mqtt pub -t 'smartthings/Fireplace Lights/switch'  -m 'off'
 # Light goes off in SmartThings
 ```
 
-A special command can also be sent (by using a different suffix e.g. set_state). The Bridge will subscribe to changes 
-in topics ending in set_state for all devices. Updates to these topics triggers a setStatus command on the device, 
-the device handler has to support this command: 
+A special command can also be sent (by using a different suffix e.g. set_state). The Bridge will subscribe to changes
+in topics ending in set_state for all devices. Updates to these topics triggers a setStatus command on the device,
+the device handler has to support this command:
 
 ```
 command "setStatus"
@@ -183,21 +183,22 @@ If you want to bundle everything together, you can use [Docker Compose][docker-c
 Just create a file called `docker-compose.yml` with this contents:
 ```yaml
 mqtt:
-    image: matteocollina/mosca
+    image: eclipse-mosquitto
     ports:
         - 1883:1883
+        - 9001:9001
 
 mqttbridge:
-    image: stjohnjohnson/smartthings-mqtt-bridge
-    volumes:
-        - ./mqtt-bridge:/config
+    image: farhad0a/smartthings-mqtt-bridge
     ports:
         - 8080:8080
+    volumes:
+        - ./mqtt-bridge:/config
     links:
         - mqtt
 
 homeassistant:
-    image: balloob/home-assistant
+    image: homeassistant/home-assistant
     ports:
         - 80:80
     volumes:
