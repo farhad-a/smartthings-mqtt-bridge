@@ -718,26 +718,6 @@ def actionColorTemperature(device, attribute, value) {
     device.setColorTemperature(value as int)
 }
 
-//Temperature Sensors don't have commands but a simulated sensor might hence the hasCommand() check.
-def actionTemperatureSensors(device, attribute, value) {
-    if (device.hasCommand("temperature")) {
-        device.temperature(value as int)
-    }
-    if (device.hasCommand("setTemperature")) {
-        device.setTemperature(value as int)
-    }
-}
-
-//Humidity Sensors don't have commands but a simulated sensor might hence the hasCommand() check.
-def actionHumiditySensors(device, attribute, value) {
-    if (device.hasCommand("humidity")) {
-        device.humidity(value as int)
-    }
-    if (device.hasCommand("setHumidity")) {
-        device.setHumidity(value as int)
-    }
-}
-
 def actionLevel(device, attribute, value) {
     device.setLevel(value as int)
 }
